@@ -1,24 +1,22 @@
 "use strict";
+var myNumber = prompt("Введите число от 0 до 999", "1000");
 
-var number = prompt("Введите число от 0 до 999", 1000);
-if ((number >= 0) && (number <= 999)) {
-  console.log("Ваше число -", number);
-  var n = (number % 100);
-  var s = ((number - n) / 100);
-  var e = (n % 10);
-  var d = ((n - e) / 10);
+if ((myNumber >= 0) && (myNumber <= 999)) {
+  console.log("Ваше число -", myNumber);
+  var hundreds = ((myNumber - (myNumber % 100)) / 100);
+  var units = (myNumber % 10);
+  var tens = (((myNumber % 100) - units) / 10);
 }
 else {
   console.log("Ошибка! Ваше число не входит в заданный диапазон.");
-  e = d = s = 0;
+  units = tens = hundreds = 0;
 }
 
 var result = {
-  Единиц: e,
-  Десятков: d,
-  Сотен: s
-}
-
+  Единиц: units,
+  Десятков: tens,
+  Сотен: hundreds
+};
 for (var key in result) {
   console.log(key, result[key]);
 }
