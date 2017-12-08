@@ -16,7 +16,8 @@ var result = {
   Единиц: units,
   Десятков: tens,
   Сотен: hundreds
-};
+}
+
 for (var key in result) {
   console.log(key, result[key]);
 }
