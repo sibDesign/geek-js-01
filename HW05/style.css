@@ -1,0 +1,13 @@
+.ch-wrap {
+    width: 640px;
+    height: 640px;
+    border: 1px solid #111;
+}
+.ch-item {
+    width: 80px;
+    height: 80px;
+    float: left;
+}
+.ch-black {
+    background: #999;
+}
