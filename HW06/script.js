@@ -1,43 +1,52 @@
 "use strict";
 
-function init() {
-  var pictures = ['01.jpg', '02.jpg', '03.jpg', '04.jpg', '05.jpg']; // массив с картинками
-  var gallery = document.getElementById('gallery'); // галерея
-  var mainView = document.getElementById('mainView'); // большая картинка из галереи
-  var bigPic = document.getElementById('bigPic'); // большая картинка с кнопками
-  mainView.innerHTML = '<img src="img/big/00.jpg">'; // картинка отображаемая по умолчанию
+var gallery = {
+  pictures: ['01.jpg', '02.jpg', '03.jpg', '04.jpg', '05.jpg'],
+  mainView: 0,
+  thumbsPath: 'img/thumbs/',
+  originalPath: 'img/',
+};
 
-  for (var i = 0; i < pictures.length; i++) { // отображаем все картинки из списка
+function init() {
+  var thumbs = document.getElementById('thumbs');
+  for (var i = 0; i < gallery.pictures.length; i++) { // отображаем все картинки
     var img = document.createElement('img');
-    img.src = 'img/thumbs/' + pictures[i];
-    img.classList.add('gallery_item');
-    gallery.appendChild(img);
+    img.src = gallery.thumbsPath + gallery.pictures[i];
+    img.classList.add('thumbs_unit');
+    img.id = i;
+    thumbs.appendChild(img);
   }
-  gallery.onclick = bigPicture;
-  bigPic.onclick = nextPicture;
+  var slider = document.getElementById('slider');
+  var mainPict = document.createElement('img');
+  mainPict.src = gallery.originalPath + gallery.pictures[gallery.mainView];
+  mainPict.classList.add('bigPict');
+  slider.appendChild(mainPict);
+
+  thumbs.onclick = bigPicture;
+  slider.onclick = go;
+  setInterval(autoplay,5000);
 }
 
 function bigPicture(event) {
-  mainView.innerHTML = ''; // убираем старую картинку из большой рамки
-  var bigPicture = event.target.cloneNode(true); // делаем копию маленькой картинки
-  bigPicture.classList.remove('gallery_item'); // убираем у копии класс
-  bigPicture.src = bigPicture.src.replace('thumbs', 'big'); // заменяем путь картинки до большого оригинала
-  mainView.appendChild(bigPicture); // выводим большую картинку
+  var main = document.getElementsByClassName('bigPict')[0];
+  gallery.mainView = event.target.id;
+  main.src = gallery.originalPath + gallery.pictures[gallery.mainView];
 }
 
-function nextPicture(event) {
-  var pictPath = event.target.src;
-  if(event.target.innerHtml="Next"){
-    console.log("Далее");
+function go(event) {
+  var main = document.getElementsByClassName('bigPict')[0];
+  if (event.target.id == "nextBtn") {
+    (gallery.mainView < (gallery.pictures.length - 1)) ? gallery.mainView++ : gallery.mainView = 0;
   }
-  console.log("Next", event.target, event.currentTarget, pictPath);
+  if (event.target.id == "prevBtn") {
+    (gallery.mainView > 0) ? gallery.mainView-- : (gallery.mainView = (gallery.pictures.length - 1));
+  }
+  main.src = gallery.originalPath + gallery.pictures[gallery.mainView];
 }
 
+function autoplay() {
+  var main = document.getElementsByClassName('bigPict')[0];
+  (gallery.mainView < (gallery.pictures.length - 1)) ? gallery.mainView++ : gallery.mainView = 0;
+  main.src = gallery.originalPath + gallery.pictures[gallery.mainView];
+}
 window.onload = init;
-
-image.onload = function () {
-
-}
-image.onerror = function () {
-
-}
